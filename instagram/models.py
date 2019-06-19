@@ -8,6 +8,9 @@ class Profile(models.Model):
     followers = models.ManyToManyField('Profile',related_name="profile_followers",blank=True)
     following = models.ManyToManyField('Profile',related_name="profile_following",blank=True)
 
+    
+    
+
 class Image(models.Model):
     image = models.ImageField(upload_to = 'photos/', default='DEFAULT VALUE')
     owner = models.ForeignKey(User, null=True, on_delete=models.CASCADE,related_name="user_name")
@@ -20,8 +23,49 @@ class Image(models.Model):
     def __str__(self):
         return self.image_name
 
+    def save_image(self):
+        self.save()
+    def delete_image(self):
+        self.delete()
+
+    @classmethod
+    def get_all_images(cls):
+        all_images = Image.objects.all()
+        for image in all_images:
+            return image
+
+    @classmethod
+    def update_image(cls,current,new):
+        to_update = Image.objects.filter(image_name=current).update(image_name=new)
+        return to_update
+
+
 class Comment(models.Model):
     image = models.ForeignKey('Image', null=True)
     user = models.ForeignKey(User)
     comment = models.CharField(max_length=100)
     posted_on = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.comment
+
+
+    def save_comment(self):
+        self.save()
+    def delete_comment(self):
+        self.delete()
+
+class Like(models.Model):
+    post = models.ForeignKey('Image')
+    user = models.ForeignKey(User)
+
+    class Meta:
+        unique_together = ("post", "user")
+
+    def __str__(self):
+        return 'Like: ' + self.user.username + ' ' + self.post.title
+
+class Followers(models.Model):
+    user = models.CharField(max_length=20)
+    follower = models.CharField(max_length=20)
+    
