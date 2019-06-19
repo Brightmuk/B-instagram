@@ -1,10 +1,10 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 
 class Profile(models.Model):
     bio = models.CharField(max_length =200)
     profile_pic_path = models.ImageField(upload_to = 'photos/', default='DEFAULT VALUE')
-
+    user = models.OneToOneField(User,on_delete=models.CASCADE, primary_key=True,default=1)
     
 
 class Image(models.Model):
