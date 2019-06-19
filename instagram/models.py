@@ -7,8 +7,6 @@ class Profile(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE, primary_key=True,default=1)
     followers = models.ManyToManyField('Profile',related_name="profile_followers",blank=True)
     following = models.ManyToManyField('Profile',related_name="profile_following",blank=True)
-
-    
     
 
 class Image(models.Model):
