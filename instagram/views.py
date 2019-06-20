@@ -17,15 +17,15 @@ def home(request):
 @login_required(login_url='/accounts/login/')
 def profile(request,id):
     user = User.objects.get(id=id)
-    try:
-        profile = Profile.objects.get(user_id=id)
-    except ObjectDoesNotExist:
-        return redirect(update_profile)            
+    # try:
+    #     profile = Profile.objects.get(user_id=id)
+    # except ObjectDoesNotExist:
+    #     return redirect(update_profile)            
     
     return render(request,'profile/profile.html',{'user':user,'profile':profile})
 
-def update_profile(request):
-    
+def update_profile(request,id):
+    user = User.objects.get(id=id)
     if request.method == 'POST':
         form = UpdateProfileForm(request.POST,request.FILES)
         if form.is_valid():
@@ -34,4 +34,4 @@ def update_profile(request):
             return redirect(home)
     else:
             form = UpdateProfileForm()
-    return render(request,'profile/update_profile.html',{'form':form})
+    return render(request,'profile/update_profile.html',{'user':user,'form':form})
