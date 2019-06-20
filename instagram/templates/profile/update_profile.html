@@ -1,12 +1,13 @@
+
 {%extends 'base.html'%}
-{% load bootstrap3 %} {% load staticfiles %}
+
 {% block content %} 
 {{ block.super}}
 <body>
                 
         <title>Update</title>
           {{form.media}}
-        
+          {% load bootstrap3 %} {% load staticfiles %}
         {% block styles %} {% bootstrap_css %}
           <link rel="stylesheet" href="{% static 'css/styles.css' %}"> {% endblock %}
         

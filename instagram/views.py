@@ -16,6 +16,7 @@ def home(request):
 
 def profile(request,id):
     user = User.objects.get(id=id)
+    profile = Profile.objects.get(user_id=id)
     
     return render(request,'profile/profile.html',{'user':user,'profile':profile})
 

@@ -3,9 +3,23 @@
 {{ block.super}}
 <body>
     <div style="margin-top:30px;" class="container">
-       <h1>{{user.username}}</h1>
-      <p> <a href="{% url 'update_profile' %}">Update profile</a></p>
+      <div clas="row">
+        <div class="col-md-3 col-sm-3 col-lg-2"></div>
+        <div class="col-md-3 col-xs-6 col-lg-3">
+        <img style="border-radius:100px;height:200px;width:200px;" src="{{profile.profile_pic.url}}" class="img-responsive" alt="Image">
+        </div>
+        <div class="col-md-3 col-sm-3 col-xs-6 col-lg-5">
+       <h3>{{user.username}}</h3>
+       <p>followers <strong>{{profile.followers}}</strong> following <strong>{{profile.following}}</strong></p>
+       <p>{{profile.bio }}</p>
+       
+      <p class="btn btn-default"> <a style="text-decoration:none" href="{% url 'update_profile' %}">Edit profile</a></p>
+      </div>
+      <div class="col-md-3 col-sm-3 col-lg-2"></div>
+    </div>
+   
     </div>
     
+    </div>
 </body>
 {% endblock %}
