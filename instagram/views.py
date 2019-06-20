@@ -6,6 +6,7 @@ from django.shortcuts import render,redirect
 from .models import Image,Profile
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from .forms import UpdateProfileForm
 
 @login_required(login_url='/accounts/login/')
 def home(request):
@@ -14,6 +15,18 @@ def home(request):
     return render(request, 'index.html',{"images":images,'users':users})
 
 def profile(request,id):
-    user = User.objects.filter(id=id)
+    user = User.objects.get(id=id)
+    
+    return render(request,'profile/profile.html',{'user':user,'profile':profile})
 
-    return render(request,'profile/profile.html',{'user':user})
+def update_profile(request):
+    
+    if request.method == 'POST':
+        form = UpdateProfileForm(request.POST,request.FILES)
+        if form.is_valid():
+            profile = form.save(commit=False)
+            profile.save()
+            return redirect(home)
+    else:
+            form = UpdateProfileForm()
+    return render(request,'profile/update_profile.html',{'form':form})

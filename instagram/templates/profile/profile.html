@@ -2,8 +2,9 @@
 {% block content %} 
 {{ block.super}}
 <body>
-    <div class="container">
-       
+    <div style="margin-top:30px;" class="container">
+       <h1>{{user.username}}</h1>
+      <p> <a href="{% url 'update_profile' %}">Update profile</a></p>
     </div>
     
 </body>
