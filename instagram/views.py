@@ -1,12 +1,12 @@
 from django.shortcuts import render
-from django.http  import HttpResponse
+from django.http  import HttpResponse,Http404,HttpResponseRedirect
 import datetime as dt
-from django.http  import HttpResponse,Http404
 from django.shortcuts import render,redirect
 from .models import Image,Profile
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from .forms import UpdateProfileForm
+from django.core.exceptions import ObjectDoesNotExist
 
 @login_required(login_url='/accounts/login/')
 def home(request):
@@ -14,9 +14,13 @@ def home(request):
     users = User.objects.all()
     return render(request, 'index.html',{"images":images,'users':users})
 
+@login_required(login_url='/accounts/login/')
 def profile(request,id):
     user = User.objects.get(id=id)
-    profile = Profile.objects.get(user_id=id)
+    try:
+        profile = Profile.objects.get(user_id=id)
+    except ObjectDoesNotExist:
+        return redirect(update_profile)            
     
     return render(request,'profile/profile.html',{'user':user,'profile':profile})
 
