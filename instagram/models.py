@@ -28,6 +28,7 @@ class Image(models.Model):
         self.save()
     def delete_image(self):
         self.delete()
+    
 
     @classmethod
     def get_all_images(cls):
@@ -39,7 +40,10 @@ class Image(models.Model):
     def update_image(cls,current,new):
         to_update = Image.objects.filter(image_name=current).update(image_name=new)
         return to_update
-
+    @classmethod
+    def get_image_by_id(cls,id):
+        image_result = cls.objects.get(id=id)
+        return image_result
 
 class Comment(models.Model):
     image = models.ForeignKey('Image', null=True)

@@ -7,9 +7,19 @@
         <div class="col-md-2 col-sm-1 "></div>
         <div class="col-md-7 col-sm-10 col-xs-12">
 
-            <p>posts</p>
+            
             {% for image in images %}
-            <img style="margin:10px;" src="{{image.image.url}}" class="img-responsive" alt="Image">
+            <div class="card">
+                <a style="text-decoration:none;color:black"href="profile/{{image.owner.id}}">
+            <p><img class="post" src="{{image.profile.profile_pic.url}}"><strong>{{image.owner}}</strong>
+                </a>
+                <span class="menu"><a style="text-decoration:none;color:black"href="/comment/{{image.id}}">...</a></span></p>
+            <hr>
+            <img style="margin:0px;" src="{{image.image.url}}" class="img-responsive" alt="Image"><br>
+            <p><strong>@{{image.owner}}</strong> {{image.caption}}</p>
+            
+            </div>
+           <br>
             {% endfor %}
         </div>
         <div class="col-md-3 col-sm-1 "></div>

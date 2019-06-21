@@ -2,16 +2,17 @@ from django.shortcuts import render
 from django.http  import HttpResponse,Http404,HttpResponseRedirect
 import datetime as dt
 from django.shortcuts import render,redirect
-from .models import Image,Profile,Like,Followers
+from .models import Image,Profile,Like,Followers,Comment
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from .forms import UpdateProfileForm,PostImage
+from .forms import UpdateProfileForm,PostImage,CommentForm
 from django.core.exceptions import ObjectDoesNotExist
 
 @login_required(login_url='/accounts/login/')
 def home(request):
     images = Image.objects.all().order_by('-post_date')
-    users = User.objects.all()
+    users = User.objects.all()  
+    current_user = request.user
     return render(request, 'index.html',{"images":images,'users':users})
 
 @login_required(login_url='/accounts/login/')
@@ -24,8 +25,8 @@ def profile(request,id):
     except ObjectDoesNotExist:
         return redirect(update_profile,current_user.id)            
     
-    return render(request,'profile/profile.html',{'user':user,'profile':profile,'images':images})
-
+    return render(request,'profile/profile.html',{'user':user,'profile':profile,'images':images,'current_user':current_user})
+@login_required(login_url='/accounts/login/')
 def update_profile(request,id):
     current_user = request.user
     user = User.objects.get(id=id)
@@ -37,7 +38,7 @@ def update_profile(request,id):
             profile.save()
             return redirect(home)
     else:
-            form = UpdateProfileForm()
+        form = UpdateProfileForm()
     return render(request,'profile/update_profile.html',{'user':user,'form':form})
 
 def search_results(request):
@@ -69,4 +70,22 @@ def new_image(request,id):
     else:
         form = PostImage()
     return render(request, 'new_image.html', {'user':current_user,"form": form})
+
+@login_required(login_url='/accounts/login/')   
+def comment(request,c_id):
+    comments = Comment.objects.filter(image_id=c_id)
+    current_user = request.user
+    current_image = Image.get_image_by_id(c_id)
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.user = current_user
+            comment.image = current_image
+            comment.save()
+            return redirect(home)
+    else:
+        form = CommentForm()
     
+    return render(request,'comments.html',{"form":form,'comments':comments})   
+
