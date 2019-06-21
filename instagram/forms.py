@@ -1,5 +1,5 @@
 from django import forms
-from .models import Profile
+from .models import Profile,Image
 from django.contrib.auth.models import User
 
 class UpdateProfileForm(forms.ModelForm):
@@ -7,3 +7,7 @@ class UpdateProfileForm(forms.ModelForm):
         model = Profile
         exclude = ['followers','following','user']
 
+class PostImage(forms.ModelForm):
+    class Meta:
+        model = Image
+        exclude = ['owner','likes','post_date','profile']

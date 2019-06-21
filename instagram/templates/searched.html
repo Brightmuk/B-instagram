@@ -5,8 +5,11 @@
     <div class="col-md-8">
         {% if users %}
         {% for user in users %}
+
+        <img style="border-radius:50px;height:50px;width:200px;" src="{{user.profile_pic.url}}" class="img-responsive" alt="Image">
         <p>{{user.username}}</p>
         {% endfor %}
+        
         {% else %}
        <p> Did not find usernames matching that username </p>
         {% endif %}

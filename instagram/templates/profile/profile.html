@@ -4,13 +4,13 @@
 <body>
     <div style="margin-top:30px;" class="container">
       <div clas="row">
-        <div class="col-md-3 col-sm-3 col-lg-2"></div>
-        <div class="col-md-3 col-xs-6 col-sm-3 col-lg-3">
+        <div class="col-md-3 col-sm-2 col-lg-2"></div>
+        <div class="col-md-3 col-xs-6 col-sm-4 col-lg-3">
         <img style="border-radius:100px;height:200px;width:200px;" src="{{profile.profile_pic.url}}" class="img-responsive" alt="Image">
         </div>
         <div class="col-md-3 col-sm-3 col-xs-6 col-lg-5">
        <h3>{{user.username}}</h3>
-      
+      <hr>
        <p>followers <strong>{{profile.followers}}</strong> following <strong>{{profile.following}}</strong></p>
       
        <p>{{profile.bio }}</p>
@@ -24,10 +24,18 @@
     </div>
     <div class="container">
       <hr>
+      <h4 class="text-center">Posts</h4>
+      <hr>
       <div class="col-md-2"></div>
       <div class="col-md-8">
-
-
+        {% for image in images %}
+        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 ">
+        <img style="margin:13px;height:200px;width:200px;" src="{{image.image.url}}" class="img-responsive" alt="Image">
+        </div>
+        {% endfor %}
+      <a href="{% url 'new_image' user.id %}">
+        <span style="margin:13px;font-size: 50px;border:1px solid rgb(230, 226, 226);padding:75px ;color:black" class="glyphicon glyphicon-plus"></span>
+        </a>
       </div>
       <div class="col-md-2"></div>
     </div>
