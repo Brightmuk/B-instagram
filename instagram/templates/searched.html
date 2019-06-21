@@ -1,0 +1,16 @@
+{%extends 'base.html'%} 
+{% block content %}
+<div class="container">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        {% if users %}
+        {% for user in users %}
+        <p>{{user.username}}</p>
+        {% endfor %}
+        {% else %}
+       <p> Did not find usernames matching that username </p>
+        {% endif %}
+    </div>   
+    <div class="col-md-2"></div>
+</div>
+{% endblock %}
