@@ -4,12 +4,15 @@
 <body>
     <div class="container">
         <h1 class="text-center">Instagram</h1>
-        <div class="col-md-3 col-sm-3 col-xs-3"></div>
-        <div class="col-md-6 col-sm-6 col-xs-6">
+        <div class="col-md-2 col-sm-1 "></div>
+        <div class="col-md-7 col-sm-10 col-xs-12">
 
             <p>posts</p>
+            {% for image in images %}
+            <img style="margin:10px;" src="{{image.image.url}}" class="img-responsive" alt="Image">
+            {% endfor %}
         </div>
-        <div class="col-md-3 col-sm-3 col-xs-3"></div>
+        <div class="col-md-3 col-sm-1 "></div>
     </div>
     
 </body>

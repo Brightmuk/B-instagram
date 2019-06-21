@@ -10,7 +10,7 @@ from django.core.exceptions import ObjectDoesNotExist
 
 @login_required(login_url='/accounts/login/')
 def home(request):
-    images = Image.objects.all()
+    images = Image.objects.all().order_by('-post_date')
     users = User.objects.all()
     return render(request, 'index.html',{"images":images,'users':users})
 
