@@ -1,7 +1,7 @@
 {%extends 'base.html'%}
 {% block content %} 
 {{ block.super}}
-{% load bootstrap3 %} {% load staticfiles %}
+
 <!DOCTYPE html>
 <html>
 
@@ -9,16 +9,25 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>New Article</title>
+  <title>New Comment</title>
   {{form.media}}
-
+  {% load bootstrap3 %} {% load staticfiles %}
 {% block styles %} {% bootstrap_css %}
-  <link rel="stylesheet" href="{% static 'css/news.css' %}"> {% endblock %}
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}"> {% endblock %}
 
 </head>
 
 <body>
 <div class="container" style="margin-top:50px;">
+    <div class="row">
+        <div class="col-md-2 col-sm-2 col-xs-1"></div>
+    <div class="col-md-8 col-sm-8 col-xs-10">
+        <div class="card">
+                <a style="text-decoration:none;color:black"href="profile/{{user.id}}">
+                    <p><img class="post" src="{{image.profile.profile_pic.url}}"><strong>{{image.owner}}</strong></p><br>
+                        </a>          
+        <img class="img-responsive" src="{{image.image.url}}">
+        </div>
     <h3>comments</h3>
     {% for comment in comments %}
     <p>{{comment.comment}}</p>
@@ -31,10 +40,13 @@
     {% bootstrap_form form%}
     <input type="submit" class="btn btn-success btn-lg" value="Post">
   </form>
-
+</div>
    {% block scripts %}
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   {% bootstrap_javascript %} {% endblock %}
+  
+  <div class="col-md-2 col-sm-2 col-xs-1"></div>
+</div>
 </div>
 </body>
 {% endblock %}
