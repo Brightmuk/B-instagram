@@ -13,12 +13,14 @@
   {{form.media}}
   {% load bootstrap3 %} {% load staticfiles %}
 {% block styles %} {% bootstrap_css %}
-  <link rel="stylesheet" href="{% static 'css/styles.css' %}"> {% endblock %}
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}"> 
+  <link href="https://fonts.googleapis.com/css?family=Aguafina+Script|Dancing+Script|Lobster|Niconne|Pacifico|Righteous|Satisfy&display=swap" rel="stylesheet">
+  {% endblock %}
 
 </head>
 
 <body>
-<div class="container" style="margin-top:50px;">
+<div class="container" style="margin-top:50px;margin-bottom:50px;">
     <div class="row">
         <div class="col-md-2 col-sm-2 col-xs-1"></div>
     <div class="col-md-8 col-sm-8 col-xs-10">
@@ -28,26 +30,35 @@
                         </a>          
         <img class="img-responsive" src="{{image.image.url}}">
         </div>
-    <h3>comments</h3>
+    <h2 class="text-center com">comments</h2><br>
     {% for comment in comments %}
-    <p>{{comment.comment}}</p>
+    <img class="post2" src="{{image.profile.profile_pic.url}}"><strong>{{image.owner}}</strong></p><br>
+    <p class="ment">{{comment.comment}}</p>
+    <hr>
     {% endfor %}
-
-
-    <form  action="/comment/{{user.id}}" method="post" enctype="multipart/form-data">
+        
+<div class="navbar-fixed-bottom">
+        <div class="col-md-2"></div>
+    <div class="col-md-8">
+    <form action="/comment/{{user.id}}" method="post" enctype="multipart/form-data">
     {%csrf_token%}
 
     {% bootstrap_form form%}
-    <input type="submit" class="btn btn-success btn-lg" value="Post">
+    <input type="submit" class="btn btn-primary btn-sm" value="Post">
   </form>
+  </div>
 </div>
+</div>
+
    {% block scripts %}
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   {% bootstrap_javascript %} {% endblock %}
   
   <div class="col-md-2 col-sm-2 col-xs-1"></div>
 </div>
+<div class="col-md-2"></div>
 </div>
+<br><br><br>
 </body>
 {% endblock %}
 </html>

@@ -13,7 +13,8 @@ def home(request):
     images = Image.objects.all().order_by('-post_date')
     users = User.objects.all()  
     current_user = request.user
-    return render(request, 'index.html',{"images":images,'users':users})
+    form = Like(request.POST)
+    return render(request, 'index.html',{"images":images,'users':users,"form":form})
 
 @login_required(login_url='/accounts/login/')
 def profile(request,id):
@@ -69,6 +70,7 @@ def new_image(request,id):
         return redirect(home)
     else:
         form = PostImage()
+        
     return render(request, 'new_image.html', {'user':current_user,"form": form})
 
 @login_required(login_url='/accounts/login/')   
@@ -86,6 +88,12 @@ def comment(request,c_id):
             return redirect(home)
     else:
         form = CommentForm()
-    
-    return render(request,'comments.html',{"form":form,'comments':comments})   
+        print(current_image)
+    return render(request,'comments.html',{"form":form,'comments':comments,"image":current_image,"user":current_user})   
 
+def like_pic(request, pic_id):
+    current_user = request.user
+    current_image = Image.objects.filter(id=pic_id)
+
+    return render(request, 'index.html',{"form": form})
+        

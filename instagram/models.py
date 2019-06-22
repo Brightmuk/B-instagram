@@ -21,8 +21,8 @@ class Image(models.Model):
     post_date = models.DateTimeField(auto_now_add=True)
     likes = models.IntegerField(default=0)
      
-    def __str__(self):
-        return self.image_name
+    def __int__(self):
+        return self.id
 
     def save_image(self):
         self.save()

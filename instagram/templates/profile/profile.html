@@ -9,14 +9,17 @@
         <img style="border-radius:100px;height:200px;width:200px;" src="{{profile.profile_pic.url}}" class="img-responsive" alt="Image">
         </div>
         <div class="col-md-3 col-sm-3 col-xs-6 col-lg-5">
-       <h3>{{user.username}}</h3>
+          
+       <h3 class="name">{{user.username}}</h3>
       <hr>
-       <p>followers <strong>{{profile.followers}}</strong> following <strong>{{profile.following}}</strong></p>
+       <p class="ff">followers <strong>04 </strong> following <strong>330</strong></p>
       
-       <p>{{profile.bio }}</p>
+       <p class="bio">{{profile.bio }}</p>
        
-      <p class="btn btn-default"> <a style="text-decoration:none" href="{% url 'update_profile' user.id %}">Edit profile</a></p>
-     
+       {% if request.user.is_authenticated %}
+      <p class="btn btn-default"> <a style="text-decoration:none;color:black" href="{% url 'update_profile' user.id %}">Edit profile</a></p>
+          {% endif %}
+          
       </div>
       <div class="col-md-3 col-sm-3 col-lg-2"></div>
     </div>
@@ -24,7 +27,7 @@
     </div>
     <div class="container">
       <hr>
-      <h4 class="text-center">Posts</h4>
+      <h4 class="text-center"><strong>Posts</strong></h4>
       <hr>
       <div class="col-md-2"></div>
       <div class="col-md-8">
@@ -33,9 +36,11 @@
         <img style="margin:13px;height:200px;width:200px;" src="{{image.image.url}}" class="img-responsive" alt="Image">
         </div>
         {% endfor %}
+        {% if request.user.is_authenticated %}
       <a href="{% url 'new_image' user.id %}">
         <span style="margin:13px;font-size: 50px;border:1px solid rgb(230, 226, 226);padding:75px ;color:black" class="glyphicon glyphicon-plus"></span>
         </a>
+        {% endif %}
       </div>
       <div class="col-md-2"></div>
     </div>
