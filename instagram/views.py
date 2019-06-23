@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404
 from django.http  import HttpResponse,Http404,HttpResponseRedirect
 import datetime as dt
 from django.shortcuts import render,redirect
@@ -12,12 +12,17 @@ from django.core.exceptions import ObjectDoesNotExist
 def home(request):
     images = Image.objects.all().order_by('-post_date')
     users = User.objects.all()  
-    current_user = request.user
+    current = request.user
     form = Like(request.POST)
-    return render(request, 'index.html',{"images":images,'users':users,"form":form})
+    
+    return render(request, 'index.html',{"images":images,'users':users,"form":form,'current':current})
 
 @login_required(login_url='/accounts/login/')
 def profile(request,id):
+    user = User.objects.get(id=id)
+    if not user:
+        return redirect('home')
+
     images = Image.objects.filter(owner_id=id)
     current_user = request.user
     user = User.objects.get(id=id)
@@ -43,14 +48,14 @@ def update_profile(request,id):
     return render(request,'profile/update_profile.html',{'user':user,'form':form})
 
 def search_results(request):
-
+    profile = Profile.objects.all
     if 'user' in request.GET and request.GET["user"]:
         search_term = request.GET.get("user")
         searched_users = User.objects.filter(username__icontains=search_term)
         
         message = f"{search_term}"
         
-        return render(request, 'searched.html',{"message":message,"users": searched_users})
+        return render(request, 'searched.html',{"message":message,"users": searched_users,"profile":profile})
 
     else:
         message = "Please input a name in the search form"
@@ -77,18 +82,19 @@ def new_image(request,id):
 def comment(request,c_id):
     comments = Comment.objects.filter(image_id=c_id)
     current_user = request.user
-    current_image = Image.get_image_by_id(c_id)
+
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
-            comment.user = current_user
-            comment.image = current_image
+            comment.image = Image.objects.get(id=c_id)
+            comment.user = current_user   
             comment.save()
             return redirect(home)
     else:
         form = CommentForm()
-        print(current_image)
+        print(current_image.id)
+        print(current_user.id)
     return render(request,'comments.html',{"form":form,'comments':comments,"image":current_image,"user":current_user})   
 
 def like_pic(request, pic_id):
@@ -96,4 +102,23 @@ def like_pic(request, pic_id):
     current_image = Image.objects.filter(id=pic_id)
 
     return render(request, 'index.html',{"form": form})
-        
+
+def follow(request,user_id):
+    res = AjaxFollow(request.Get,request.user)
+    
+    context = { 'ajax_output': ajax_output()}
+    return render(request,'profile.html',context)  
+
+@login_required(login_url='/accounts/login/')
+def update_image(request,id):
+    current_user = request.user
+    user = User.objects.get(id=id)
+    if request.method == 'POST':
+        form = UpdateImage(request.POST)
+        if form.is_valid():
+            image = form.save(commit=False)
+            image.save()
+            return redirect(home)
+    else:
+        form = UpdateProfileForm()
+    return render(request,'update_image.html',{'user':user,'form':form})

@@ -28,7 +28,8 @@
                 <a style="text-decoration:none;color:black"href="profile/{{user.id}}">
                     <p><img class="post" src="{{image.profile.profile_pic.url}}"><strong>{{image.owner}}</strong></p><br>
                         </a>          
-        <img class="img-responsive" src="{{image.image.url}}">
+        <img class="img-responsive" src="{{image.image.url}}"><br>
+        <p class="btn btn-default"> <a style="text-decoration:none;color:black" href="{% url 'update_image' image.id %}">Edit Image</a></p>
         </div>
     <h2 class="text-center com">comments</h2><br>
     {% for comment in comments %}

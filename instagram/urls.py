@@ -11,6 +11,7 @@ urlpatterns=[
     url(r'^new/image/(\d+)$',views.new_image,name="new_image"),
     url(r'^comment/(\d+)$', views.comment, name='comment'),
     url(r'^like/(\d+)$',views.like_pic,name="like"),
+    url(r'^image/update/(\d+)$',views.update_image,name='update_image'),
 ]
 if settings.DEBUG:
     urlpatterns+= static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
