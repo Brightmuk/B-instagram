@@ -9,7 +9,11 @@ class Profile(models.Model):
     following = models.ManyToManyField('Profile',related_name="profile_following",blank=True,default=0)
     def __str__(self):
         return self.user
-
+    def save_profile(self):
+        self.save()
+    def delete_profile(self):
+        self.delete()
+    
     
 
 class Image(models.Model):
@@ -46,7 +50,7 @@ class Image(models.Model):
         return image_result
 
 class Comment(models.Model):
-    image = models.ForeignKey('Image', null=True)
+    image = models.ForeignKey('Image')
     user = models.ForeignKey(User)
     comment = models.CharField(max_length=100)
     posted_on = models.DateTimeField(auto_now=True)
