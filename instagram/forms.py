@@ -17,3 +17,7 @@ class CommentForm(forms.ModelForm):
         model = Comment
         exclude = ['user','image','posted_on']
 
+class UpdateImage(forms.ModelForm):
+    class Meta:
+        model = Image
+        exclude = ['image','owner','profile','likes','post_date']
