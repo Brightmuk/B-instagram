@@ -63,7 +63,7 @@
                               <ul class="dropdown-menu items" role="menu">
                                 
                                 <li>
-                                  <a href="profile/{{user.id}}">Profile</a>
+                                  <a href="{% url 'profile' user.id %}">Profile</a>
                                 </li>
                                 <li>
                                   <a href="/logout">Logout</a>
