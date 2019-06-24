@@ -5,7 +5,7 @@ from django.shortcuts import render,redirect
 from .models import Image,Profile,Like,Followers,Comment
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from .forms import UpdateProfileForm,PostImage,CommentForm
+from .forms import UpdateProfileForm,PostImage,CommentForm,UpdateImage,FollowForm
 from django.core.exceptions import ObjectDoesNotExist
 
 @login_required(login_url='/accounts/login/')
@@ -19,6 +19,7 @@ def home(request):
 
 @login_required(login_url='/accounts/login/')
 def profile(request,id):
+    
     user = User.objects.get(id=id)
     if not user:
         return redirect('home')
@@ -82,26 +83,27 @@ def new_image(request,id):
 def comment(request,c_id):
     comments = Comment.objects.filter(image_id=c_id)
     current_user = request.user
-
+    current_image = Image.objects.get(id=c_id)
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
-            comment.image = Image.objects.get(id=c_id)
+            comment.image = current_image
             comment.user = current_user   
             comment.save()
             return redirect(home)
     else:
         form = CommentForm()
-        print(current_image.id)
-        print(current_user.id)
+        
     return render(request,'comments.html',{"form":form,'comments':comments,"image":current_image,"user":current_user})   
 
 def like_pic(request, pic_id):
     current_user = request.user
-    current_image = Image.objects.filter(id=pic_id)
-
-    return render(request, 'index.html',{"form": form})
+    
+    image = Image.objects.get(id=pic_id)
+    new_like = Like(post=image,user=current_user)
+    new_like.save()
+    return redirect(home)
 
 def follow(request,user_id):
     res = AjaxFollow(request.Get,request.user)
@@ -112,13 +114,30 @@ def follow(request,user_id):
 @login_required(login_url='/accounts/login/')
 def update_image(request,id):
     current_user = request.user
-    user = User.objects.get(id=id)
+    image = Image.objects.get(id=id)
     if request.method == 'POST':
         form = UpdateImage(request.POST)
         if form.is_valid():
             image = form.save(commit=False)
-            image.save()
+            image.owner = current_user
+            image.update_image(current,new)
             return redirect(home)
     else:
-        form = UpdateProfileForm()
-    return render(request,'update_image.html',{'user':user,'form':form})
+        form = UpdateImage()
+
+    return render(request,'update_image.html',{'user':current_user,'form':form,"image":image})
+
+# @login_required(login_url='/accounts/login/')
+# def follow(request,username):
+#     current = request.user
+#     to_follow = User.objects.get(username=username)
+#     form = FollowForm()
+#     if request.method == 'POST':
+#         form = FollowForm(request.POST)
+#         if form.is_valid():
+#             profile = form.save(commit=False)
+#             profile.follower = current
+#             profile.user = current
+#             profile.save()
+#             return redirect(home)
+#     return render(request, 'profile/profile.html',{"form":form})
