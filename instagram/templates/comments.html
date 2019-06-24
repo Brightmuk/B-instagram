@@ -29,7 +29,7 @@
                     <p><img class="post" src="{{image.profile.profile_pic.url}}"><strong>{{image.owner}}</strong></p><br>
                         </a>          
         <img class="img-responsive" src="{{image.image.url}}"><br>
-        <p class="btn btn-default"> <a style="text-decoration:none;color:black" href="{% url 'update_image' image.id %}">Edit Image</a></p>
+        <p><a href="like/{{image.id}}">like</a></p>
         </div>
     <h2 class="text-center com">comments</h2><br>
     {% for comment in comments %}
@@ -41,7 +41,7 @@
 <div class="navbar-fixed-bottom">
         <div class="col-md-3 col-sm-2"></div>
     <div class="col-md-6 col-sm-8">
-    <form action="/comment/{{user.id}}" method="post" enctype="multipart/form-data">
+    <form action="/comment/{{image.id}}" method="post" enctype="multipart/form-data">
     {%csrf_token%}
 
     {% bootstrap_form form%}
