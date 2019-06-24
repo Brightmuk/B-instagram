@@ -21,3 +21,8 @@ class UpdateImage(forms.ModelForm):
     class Meta:
         model = Image
         exclude = ['image','owner','profile','likes','post_date']
+
+class FollowForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        exclude = ['user','bio','profile_pic','followers','following']
