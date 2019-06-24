@@ -29,7 +29,17 @@
                     <p><img class="post" src="{{image.profile.profile_pic.url}}"><strong>{{image.owner}}</strong></p><br>
                         </a>          
         <img class="img-responsive" src="{{image.image.url}}"><br>
-        <p><a href="like/{{image.id}}">like</a></p>
+        {% if likes %}
+        <p>You liked the image</p>
+        {% else %}
+        <a href="like/{{image.id}}"><span class='glyphicon glyphicon-thumbs-up'style="font-size:25px"></span></a>
+        {% endif %}
+        <form style="border:white"action="/comment/{{image.id}}" method="post" enctype="multipart/form-data">
+          {%csrf_token%}
+      
+          {% bootstrap_form form%}
+          <input type="submit" class="btn btn-primary btn-sm" value="Post">
+        </form>
         </div>
     <h2 class="text-center com">comments</h2><br>
     {% for comment in comments %}
@@ -38,18 +48,10 @@
     <hr>
     {% endfor %}
         
-<div class="navbar-fixed-bottom">
-        <div class="col-md-3 col-sm-2"></div>
-    <div class="col-md-6 col-sm-8">
-    <form action="/comment/{{image.id}}" method="post" enctype="multipart/form-data">
-    {%csrf_token%}
 
-    {% bootstrap_form form%}
-    <input type="submit" class="btn btn-primary btn-sm" value="Post">
-  </form>
   </div>
   <div class="col-md-3 col-sm-2"></div>
-</div>
+
 </div>
 
    {% block scripts %}

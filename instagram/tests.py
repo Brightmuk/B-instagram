@@ -42,8 +42,8 @@ class Intagram_TestCases(TestCase):
 
     def test_search_by_username(self):
         self.profile.save_profile()        
-        profile = Profile.objects.get(user_id=1)
-        self.assertTrue(profile.user_id==1)
+        profile = Profile.search_profile(username='James')
+        self.assertTrue(profile.user=='James')
 
     def test_update_single_image(self):
         self.my_image.save_image()

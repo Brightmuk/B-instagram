@@ -13,20 +13,24 @@ class Profile(models.Model):
         self.save()
     def delete_profile(self):
         self.delete()
+    @classmethod
+    def search_profile(cls,search_term):
+        profiles = cls.objects.filter(user__icontains=search_term)
+        return profiles
     
     
 
 class Image(models.Model):
     image = models.ImageField(upload_to = 'photos/', default='DEFAULT VALUE')
     owner = models.ForeignKey(User, null=True, on_delete=models.CASCADE,related_name="user_name")
-    profile = models.ForeignKey(Profile)
+    profile = models.ForeignKey(Profile,null=True)
     image_name = models.CharField(max_length =30)
     caption = models.CharField(max_length =50)
     post_date = models.DateTimeField(auto_now_add=True)
     likes = models.IntegerField(default=0)
      
-    def __int__(self):
-        return self.id
+    def __str__(self):
+        return self.image_name
 
     def save_image(self):
         self.save()
@@ -77,4 +81,5 @@ class Like(models.Model):
 class Followers(models.Model):
     user = models.CharField(max_length=20)
     follower = models.CharField(max_length=20)
+    
     

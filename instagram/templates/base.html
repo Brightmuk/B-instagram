@@ -6,11 +6,9 @@
 <head>
   <meta charset="utf-8">
 
-  {% if title %}
+  
   <title>Instagram {{title}}</title>
-  {% else %}
-    <title> Gallery </title>
-  {% endif %}
+  <link rel="shortcut icon" href="{% static 'images/favicon.png' %}" />
 
   {% block styles %}
   
