@@ -5,7 +5,7 @@ from django.shortcuts import render,redirect
 from .models import Image,Profile,Like,Followers,Comment
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from .forms import UpdateProfileForm,PostImage,CommentForm,UpdateImage,FollowForm
+from .forms import UpdateProfileForm,PostImage,CommentForm,UpdateImage
 from django.core.exceptions import ObjectDoesNotExist
 
 @login_required(login_url='/accounts/login/')
@@ -106,13 +106,14 @@ def like_pic(request, pic_id):
     image = Image.objects.get(id=pic_id)
     new_like = Like(post=image,user=current_user)
     new_like.save()
-    return redirect(home)
+    return redirect(comment,image.id)
 
 def follow(request,user_id):
-    res = AjaxFollow(request.Get,request.user)
-    
-    context = { 'ajax_output': ajax_output()}
-    return render(request,'profile.html',context)  
+    current_user = request.user
+    to_follow = Profile.objects.get(user_id=user_id)
+    new_profile = Profile(user_id=to_follow,followers=current_user.id,following=to_follow)
+    new_profile.save()
+    return redirect(home)  
 
 @login_required(login_url='/accounts/login/')
 def update_image(request,id):
@@ -130,17 +131,3 @@ def update_image(request,id):
 
     return render(request,'update_image.html',{'user':current_user,'form':form,"image":image})
 
-# @login_required(login_url='/accounts/login/')
-# def follow(request,username):
-#     current = request.user
-#     to_follow = User.objects.get(username=username)
-#     form = FollowForm()
-#     if request.method == 'POST':
-#         form = FollowForm(request.POST)
-#         if form.is_valid():
-#             profile = form.save(commit=False)
-#             profile.follower = current
-#             profile.user = current
-#             profile.save()
-#             return redirect(home)
-#     return render(request, 'profile/profile.html',{"form":form})

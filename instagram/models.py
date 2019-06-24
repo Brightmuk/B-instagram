@@ -79,7 +79,7 @@ class Like(models.Model):
         return 'Like: ' + self.user.username + ' ' + self.post.title
 
 class Followers(models.Model):
-    user = models.CharField(max_length=20)
-    follower = models.CharField(max_length=20)
-    
+    user = models.CharField(max_length=15)
+    follower = models.CharField(max_length=15)
+    following = models.CharField(max_length=15)
     

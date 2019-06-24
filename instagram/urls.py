@@ -12,7 +12,7 @@ urlpatterns=[
     url(r'^comment/(\d+)$', views.comment, name='comment'),
     url(r'^comment/like/(\d+)$',views.like_pic,name="like"),
     url(r'^image/update/(\d+)$',views.update_image,name='update_image'),
-    # url(r'^profile/follow/(\w+)$', views.follow, name='follow')
+    url(r'^profile/follow/(\d+)$', views.follow, name='follow')
 ]
 if settings.DEBUG:
     urlpatterns+= static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
