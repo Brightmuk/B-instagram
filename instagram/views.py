@@ -50,8 +50,10 @@ def update_profile(request,id):
 
 def search_results(request):
     profile = Profile.objects.all
+    
     if 'user' in request.GET and request.GET["user"]:
         search_term = request.GET.get("user")
+        
         searched_users = User.objects.filter(username__icontains=search_term)
         
         message = f"{search_term}"
