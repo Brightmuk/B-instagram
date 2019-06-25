@@ -111,8 +111,6 @@ def like_pic(request, pic_id):
     image = Image.objects.get(id=pic_id)
     new_like = Like(post=image,user=current_user)
     new_like.save()
-    image.likes + 1
-    image.save()
     return redirect(comment,image.id)
 
 def follow(request,user_id):
