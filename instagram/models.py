@@ -76,7 +76,7 @@ class Like(models.Model):
         unique_together = ("post", "user")
 
     def __str__(self):
-        return 'Like: ' + self.user.username + ' ' + self.image.image_name
+        return 'Like: ' + self.user.username 
 
 class Followers(models.Model):
     user = models.CharField(max_length=15)
