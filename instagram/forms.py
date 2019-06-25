@@ -10,7 +10,7 @@ class UpdateProfileForm(forms.ModelForm):
 class PostImage(forms.ModelForm):
     class Meta:
         model = Image
-        exclude = ['owner','likes','post_date','profile']
+        exclude = ['owner','post_date','profile']
 
 class CommentForm(forms.ModelForm):
     class Meta:
@@ -20,5 +20,5 @@ class CommentForm(forms.ModelForm):
 class UpdateImage(forms.ModelForm):
     class Meta:
         model = Image
-        exclude = ['image','owner','profile','likes','post_date']
+        exclude = ['image','owner','profile','post_date']
 
