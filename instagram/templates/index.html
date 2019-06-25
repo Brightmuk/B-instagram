@@ -13,8 +13,13 @@
             {% for image in images %}
             <div class="card">
                 <a style="text-decoration:none;color:black"href="profile/{{image.owner.id}}">
-            <p><img class="post" src="{{image.profile.profile_pic.url}}"><strong>{{image.owner}}</strong>
-                </a>
+                    {% if image.profile.profile_pic.url %}
+            <p><img class="post" src="{{image.profile.profile_pic.url}}" ><strong>{{image.owner}}</strong>
+               
+                {% else %}
+                <strong>{{image.owner}}</strong>
+                {% endif %}
+            </a>
                 <span class="menu"><a style="text-decoration:none;color:black"href="/comment/{{image.id}}">...</a></span></p>
             <hr>
             <img style="margin:0px;" src="{{image.image.url}}" class="img-responsive" alt="Image"><br>
