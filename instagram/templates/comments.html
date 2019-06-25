@@ -30,6 +30,11 @@
                                 
         <img class="img-responsive" src="{{image.image.url}}"><br>
         {% if likes %}
+        <p><b>{{likes}}</b> likes</p>
+        {% else %}
+        <p>No likes</p>
+        {%endif%}
+        {% if like %}
         <p>You liked the image</p>
         {% else %}
         <a href="like/{{image.id}}"><span class='glyphicon glyphicon-thumbs-up'style="font-size:25px"></span></a>

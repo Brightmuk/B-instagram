@@ -27,7 +27,7 @@ class Image(models.Model):
     image_name = models.CharField(max_length =30)
     caption = models.CharField(max_length =50)
     post_date = models.DateTimeField(auto_now_add=True)
-    likes = models.IntegerField(default=0)
+    
      
     def __str__(self):
         return self.image_name
@@ -76,7 +76,7 @@ class Like(models.Model):
         unique_together = ("post", "user")
 
     def __str__(self):
-        return 'Like: ' + self.user.username + ' ' + self.post.title
+        return 'Like: ' + self.user.username + ' ' + self.image.image_name
 
 class Followers(models.Model):
     user = models.CharField(max_length=15)
