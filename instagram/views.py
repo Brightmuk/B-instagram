@@ -13,8 +13,9 @@ def home(request):
     images = Image.objects.all().order_by('-post_date')
     users = User.objects.all()  
     current = request.user
+    likes = Like.objects.all().count()
     
-    return render(request, 'index.html',{"images":images,'users':users,'current':current})
+    return render(request, 'index.html',{"images":images,'users':users,'current':current,"likes":likes})
 
 @login_required(login_url='/accounts/login/')
 def profile(request,id):
@@ -84,9 +85,13 @@ def comment(request,c_id):
     current_user = request.user
     current_image = Image.objects.get(id=c_id)
     try:
-        likes = Like.objects.filter(post_id=c_id).get(user_id=request.user)
+        likes = Like.objects.filter(post_id=c_id).count()
     except ObjectDoesNotExist:
         likes =0
+    try:
+        like = Like.objects.filter(post_id=c_id).get(user_id=request.user)
+    except ObjectDoesNotExist:
+        like =0
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
@@ -98,7 +103,7 @@ def comment(request,c_id):
     else:
         form = CommentForm()
         
-    return render(request,'comments.html',{"form":form,'comments':comments,"image":current_image,"user":current_user,'likes':likes})   
+    return render(request,'comments.html',{"form":form,'comments':comments,"image":current_image,"user":current_user,'like':like,"likes":likes})   
 
 def like_pic(request, pic_id):
     current_user = request.user
@@ -106,6 +111,8 @@ def like_pic(request, pic_id):
     image = Image.objects.get(id=pic_id)
     new_like = Like(post=image,user=current_user)
     new_like.save()
+    image.likes + 1
+    image.save()
     return redirect(comment,image.id)
 
 def follow(request,user_id):
