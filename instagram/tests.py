@@ -9,7 +9,7 @@ class Intagram_TestCases(TestCase):
         self.user1.save()
         self.profile = Profile(user_id=1,bio='i love cheese',profile_pic='images/food.jpg')
         self.profile.save_profile()
-        self.my_image = Image(id=1,caption='eating is awesome', owner=self.user1,profile=self.profile,image='media/get.jpg',image_name='muk',likes=3)
+        self.my_image = Image(id=1,caption='eating is awesome', owner=self.user1,profile=self.profile,image='media/get.jpg',image_name='muk')
         self.my_image.save_image()
 
     def tearDown(self):
@@ -40,10 +40,6 @@ class Intagram_TestCases(TestCase):
         image = Image.get_image_by_id(1)
         self.assertEqual(image.id,1)
 
-    def test_search_by_username(self):
-        self.profile.save_profile()        
-        profile = Profile.search_profile(username='James')
-        self.assertTrue(profile.user=='James')
 
     def test_update_single_image(self):
         self.my_image.save_image()
